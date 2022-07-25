@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}{{ question.title }}{% endblock %}
+
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/detail.css') }}">
+{% endblock %}
+
+
+{% block body %}
+<div class="row" style="margin-top: 20px;">
+    <div class="col"></div>
+    <div class="col-8" style="background-color: #fff;padding: 20px;">
+        <h3 class="page-title">{{ question.title }}</h3>
+        <p class="question-info">
+            <span>Author：{{ question.author.username }} </span>
+            <span>Organ：{{ question.author.o_name }} </span>
+            <span>time：{{ question.create_time }} </span>
+        </p>
+        <p class="question-info">
+            {% if question.course_id == 0 %}
+            {% if user.u_type == 'lecturer' %}
+        <form class="form-inline my-2 my-lg-0" method="POST"
+              action="{{ url_for('qa.add_course',question_id=question.id) }}">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add To My Course</button>
+        </form>
+        {% else %}
+        <h4>No course select this proposal, share this with your Lecturer!</h4>
+        {% endif %}
+        {% else %}
+        <h6>Course：{{ question.course.title }} </h6>
+        <span>Lecturer：{{ question.course.author.username }} </span>
+        <span>time：{{ question.course.create_time }} </span>
+        <hr>
+        <span>Course Request: </span>
+        <p class="course-content">{{ question.course.content }}</p>
+        <hr>
+        {% endif %}
+        </p>
+        <hr>
+        <span>Proposal Detail: </span>
+        <p class="question-content">{{ question.content }}</p>
+        <hr>
+        {% if user.u_type == 'student' and question.course_id != 0 %}
+            {% if user.c_id == 0 %}
+            <form class="form-inline my-2 my-lg-0" method="POST"
+                  action="{{ url_for('user.join_course',question_id=question.id,course_id=question.course_id) }}">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Join Course</button>
+            </form>
+            {% endif %}
+            {% if user.c_id == question.course_id %}
+            <form class="form-inline my-2 my-lg-0" method="POST"
+                  onclick="{if(confirm('Are you sure you want to DROP?')){this.document.formname.submit();
+                   return true;}return false;}"
+                  action="{{ url_for('user.drop_course',question_id=question.id) }}">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Drop Course</button>
+            </form>
+            {% endif %}
+        {% endif %}
+
+        {% if question.course_id != 0 %}
+            <h4 class="comment-group-title">Comment({{ question.answers|length }})：</h4>
+            <form action="{{ url_for('qa.answer',question_id=question.id) }}" method="post">
+                <div class="form-group">
+                    <input type="text" placeholder="comment..." name="content" class="form-control">
+                </div>
+                {% for message in get_flashed_messages() %}
+                <div class="form-group">
+                    <div class="text-danger">{{ message }}</div>
+                </div>
+                {% endfor %}
+                <div class="form-group" style="text-align: right;">
+                    <button class="btn btn-primary">Comment</button>
+                </div>
+            </form>
+            <ul class="comment-group">
+                {% for answer in question.answers %}
+                <li>
+                    <div class="user-info">
+                        <img class="avatar" src="{{ url_for('static',filename='images/avatar.jpg') }}" alt="">
+                        <span class="username">{{ answer.author.username }}</span>
+                        <span class="create-time">{{ answer.create_time }}</span>
+                    </div>
+                    <p class="comment-content">{{ answer.content }}</p>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <h6>Can not make comment! </h6>
+            <h6>Recommend this Proposal to Lecturers you know! </h6>
+        {% endif %}
+    </div>
+    <div class="col"></div>
+
+</div>
+{% endblock %}

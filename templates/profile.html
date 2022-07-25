@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Answer-Profile{% endblock %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+    <ul class="navbar-nav">
+        {% if user.u_type == 'lecturer' %}
+
+        <form class="form-inline my-2 my-lg-0" method="GET" action="{{ url_for('qa.create_course') }}">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Create a Course</button>
+            </form>
+        {% else %}
+          profile
+        {% endif %}
+    </ul>
+{% endblock %}
