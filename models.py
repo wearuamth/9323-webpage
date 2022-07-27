@@ -50,27 +50,13 @@ class CourseModel(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     author = db.relationship("UserModel", backref="course")
 
-#
-# class ProjModel(db.Model):
-#     __tablename__ = "proj"
-#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-#     name = db.Column(db.String(200), nullable=False)
-#     content = db.Column(db.Text, nullable=False)
-#     create_time = db.Column(db.DateTime, default=datetime.now)
-#
-#     course_id = db.Column(db.Integer, db.ForeignKey("course.id"), default=-1)
-#     course = db.relationship("CourseModel", backref="project")
-#
-#     author_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-#     author = db.relationship("UserModel", backref="project")
-
-
 class AnswerModel(db.Model):
     __tablename__ = "answer"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     content = db.Column(db.Text, nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
     question_id = db.Column(db.Integer, db.ForeignKey("question.id"))
+    likes = db.Column(db.Integer,default=0)
     author_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
     question = db.relationship("QuestionModel", backref=db.backref("answers", order_by=create_time.desc()))

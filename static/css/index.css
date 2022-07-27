@@ -28,7 +28,7 @@
     font-weight: 900;
 }
 .question-author{
-    font-size: 12px;
+    font-size: 15px;
     margin-top: 5px;
 }
 .question-content{
@@ -36,9 +36,14 @@
     font-size:12px;
 }
 .question-detail{
-    text-align: right;
     margin-top: 10px;
 }
-.question-detail .question-author{
+.question-author{
+    text-align: right;
     margin-right:10px;
+    margin-left:300px
+}
+.question-detail .question-answer{
+    text-algin:left;
+    font-size:12px
 }

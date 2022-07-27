@@ -19,7 +19,9 @@
             <div class="question-main">
               <div class="question-title"><a href="{{ url_for('qa.question_detail',question_id=question.id) }}">{{ question.title }}</a></div>
               <div class="question-content">{{ question.content[:200] }}....</div>
+
               <div class="question-detail">
+                <span class="question-answer">{{question.answers|length }} Answers</span>
                 <span class="question-author">{{ question.author.username }}</span>
                 <span class="question-time">{{ question.create_time }}</span>
               </div>

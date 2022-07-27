@@ -78,7 +78,8 @@ def public_question():
 @login_required
 def question_detail(question_id):
     question = QuestionModel.query.get(question_id)
-    return render_template("detail.html", question=question,user=g.user)
+    answers = AnswerModel.query.filter_by(question_id=question.id).order_by(db.text("-likes")).all()
+    return render_template("detail.html", question=question,user=g.user,answers = answers)
 
 
 
@@ -93,7 +94,7 @@ def answer(question_id):
         form = AnswerForm(request.form)
         if form.validate():
             content = form.content.data
-            answer_model = AnswerModel(content=content,author=g.user,question_id=question_id)
+            answer_model = AnswerModel(content=content,author=g.user,question_id=question_id,likes=0)
             db.session.add(answer_model)
             db.session.commit()
             return redirect(url_for("qa.question_detail",question_id=question_id))
@@ -116,3 +117,13 @@ def search():
     # filter：使用模型.字段名称
     questions =QuestionModel.query.filter(or_(QuestionModel.title.contains(q),QuestionModel.content.contains(q))).order_by(db.text("-create_time"))
     return render_template("index.html",questions=questions)
+
+@bp.route("/likes/<int:answer_id>")
+def likes(answer_id):
+    answer = AnswerModel.query.filter_by(id=answer_id).first()
+    answer.likes += 1
+    q_id = answer.question_id
+    db.session.commit()
+    return redirect(url_for("qa.question_detail",question_id = q_id))
+
+

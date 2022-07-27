@@ -49,3 +49,6 @@
 .comment-content{
     margin-left: 50px;
 }
+
+.like{ font-size:20px;  color:#ccc; cursor:pointer; left: 0px;}
+.cs{color:#f00;}

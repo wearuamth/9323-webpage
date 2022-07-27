@@ -75,14 +75,19 @@
                 </div>
             </form>
             <ul class="comment-group">
-                {% for answer in question.answers %}
+                {% for answer in answers %}
                 <li>
                     <div class="user-info">
                         <img class="avatar" src="{{ url_for('static',filename='images/avatar.jpg') }}" alt="">
                         <span class="username">{{ answer.author.username }}</span>
-                        <span class="create-time">{{ answer.create_time }}</span>
+
                     </div>
                     <p class="comment-content">{{ answer.content }}</p>
+                    <div class="user-info">
+                        <span class="like" ><a href="{{url_for('qa.likes',answer_id=answer.id)}}">&#10084;</a> </span>
+                        {{answer.likes}} likes
+                    <span class="create-time">{{ answer.create_time }}</span>
+                    </div>
                 </li>
                 {% endfor %}
             </ul>

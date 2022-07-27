@@ -7,9 +7,18 @@
 {% endblock %}
 
 {% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col">
+        <img src="{{ url_for('static',filename='images/avatar.jpg') }}" class="rounded-sm" alt="...">
+    </div>
+    <div class="col">
+      2 of 2
+    </div>
+  </div>
+</div>
     <ul class="navbar-nav">
         {% if user.u_type == 'lecturer' %}
-
         <form class="form-inline my-2 my-lg-0" method="GET" action="{{ url_for('qa.create_course') }}">
               <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Create a Course</button>
             </form>
