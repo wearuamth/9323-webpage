@@ -75,6 +75,7 @@ def public_question():
 
 
 @bp.route("/question/<int:question_id>")
+@login_required
 def question_detail(question_id):
     question = QuestionModel.query.get(question_id)
     return render_template("detail.html", question=question,user=g.user)
@@ -105,7 +106,6 @@ def answer(question_id):
         else:
             flash("Join this course as student!")
         return redirect(url_for("qa.question_detail", question_id=question_id))
-
 
 
 @bp.route("/search")

@@ -48,7 +48,7 @@
                   action="{{ url_for('user.join_course',question_id=question.id,course_id=question.course_id) }}">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Join Course</button>
             </form>
-            {% endif %}
+        {% endif %}
             {% if user.c_id == question.course_id %}
             <form class="form-inline my-2 my-lg-0" method="POST"
                   onclick="{if(confirm('Are you sure you want to DROP?')){this.document.formname.submit();

@@ -31,8 +31,6 @@ def before_request():
         except:
             g.user = None
 
-# 请求来了 -> before_request -> 视图函数 -> 视图函数中返回模板 -> context_processor
-
 @app.context_processor
 def context_processor():
     if hasattr(g,"user"):
